@@ -9,13 +9,13 @@ useHead({
   charset: 'utf-8',
   title: languageBasedConfigs.value?.settings?.meta_title,
   meta: [
-    {name: 'description', content: languageBasedConfigs.value?.settings?.meta_description}
+    { name: 'description', content: languageBasedConfigs.value?.settings?.meta_description }
   ],
 });
 </script>
 
 <template>
-  <MainContainer :settings="languageBasedConfigs.settings">
+  <MainContainer :settings="languageBasedConfigs.settings" >
     <UiMusicList/>
   </MainContainer>
 </template>

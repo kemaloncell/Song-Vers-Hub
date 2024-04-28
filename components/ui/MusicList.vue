@@ -1,47 +1,55 @@
 <template>
   <div class="overflow-x-auto">
-    <table class="table">
-      <!-- head-->
-      <thead>
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
       <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Music</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Artist</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Album</th>
       </tr>
       </thead>
-      <tbody>
-      <!-- row 1 -->
-      <tr>
-        <td>1</td>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
-                <img src="" alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Hart Hagerty</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <span class="badge badge-ghost badge-md">Desktop Support Technician</span>
-        </td>
-      </tr>
-      </tbody>
-      <!-- foot
-      <tfoot>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th></th>
-      </tr>
-      </tfoot>-->
+      <tbody class="bg-white divide-y divide-gray-200">
 
+      <tr v-for="song in songs" :key="song.song_id">
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${song.song_id}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <NuxtLink :to="`/${getLanguage}/${song.path}/${song.song_id}`" class="flex items-center">
+            <img class="h-8 w-8  mr-2" src="https://via.placeholder.com/50" alt="Artist Image">
+            <span class="text-sm font-medium text-gray-900">{{song.artist_name}}</span>
+          </NuxtLink>
+        </td>
+          <NuxtLink :to="`/${getLanguage}/${song.path}/${song.song_id}`">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{song.song_name}}</td>
+          </NuxtLink>
+      </tr>
+
+
+      </tbody>
     </table>
   </div>
+
+
+
 </template>
-<script setup lang="ts">
+
+<script setup>
+import { useConfig } from "~/composables";
+
+const { getLanguage} = useConfig();
+import songsService from "~/services/songsService.js";
+import {onMounted} from "vue";
+
+const songs = ref([])
+
+onMounted(async () => {
+  try {
+    const songsResponse = await songsService.getSongs();
+    songs.value = songsResponse.data.content;
+    console.log("songsResponse", songs.value)
+
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+});
 </script>
