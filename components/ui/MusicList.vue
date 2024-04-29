@@ -11,7 +11,7 @@
       <tbody class="bg-white divide-y divide-gray-200">
 
       <tr v-for="song in songs" :key="song.song_id">
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${song.song_id}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{song.song_id}}</td>
         <td class="px-6 py-4 whitespace-nowrap">
           <NuxtLink :to="`/${getLanguage}/${song.path}/${song.song_id}`" class="flex items-center">
             <img class="h-8 w-8  mr-2" src="https://via.placeholder.com/50" alt="Artist Image">
@@ -22,22 +22,15 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{song.song_name}}</td>
           </NuxtLink>
       </tr>
-
-
       </tbody>
     </table>
   </div>
-
-
-
 </template>
 
 <script setup>
 import { useConfig } from "~/composables";
-
-const { getLanguage} = useConfig();
 import songsService from "~/services/songsService.js";
-import {onMounted} from "vue";
+const { getLanguage} = useConfig();
 
 const songs = ref([])
 

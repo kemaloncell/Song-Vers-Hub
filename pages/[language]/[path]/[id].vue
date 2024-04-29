@@ -1,37 +1,34 @@
 <template>
   <div class="overflow-x-auto">
-    <div class="hero  bg-base-200">
-      <div class="hero-content flex-col lg:flex-row space-between">
-        <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />
-        <div>
-          <h1 class="text-5xl font-bold">{{lyrics}}!</h1>
-          <p class="py-6">Provident cupiditat In deleniti eaque aut repudiandae et a id nisi.</p>
-          <p class="py-6">Provident cupiditat In deleniti eaque aut repudiandae et a id nisi.</p>
-          <button class="btn btn-primary">Get Started</button>
-          {{$route.params}}
+    <div class="bg-base-200">
+      <div class="grid grid-rows-2 grid-flow-col gap-4 p-5">
+        <div class="row-span-2 flex">
+            <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />
+             <p class="py-2 ml-5">{{lyrics.artist_name}}</p>
+        </div>
+        <div class="row-span-2 col-span-2">
+            <h1 class="text-5xl font-bold">{{lyrics.song_name}}</h1>
+            <p class="py-2">{{lyrics.lyrics}}</p>
+            <p class="py-2">Provident cupiditat In deleniti eaque aut repudiandae et a id nisi.</p>
+            <p class="py-2">Provident cupiditat In deleniti eaque aut repudiandae et a id nisi.</p>
+            <p class="py-2">Provident cupiditat In deleniti eaque aut repudiandae et a id nisi.</p>
         </div>
       </div>
     </div>
   </div>
-
-
-
 </template>
 
 <script setup>
-
 import lyricsService from "~/services/lyricsService.js";
-
 const route = useRoute();
 const { params } = route;
 const lyrics = ref([])
 
 onMounted(async () => {
-  console.log(params)
   try {
     const lyricsResponse = await lyricsService.getLyrics(params.path);
-    lyrics.value = lyricsResponse.data.content;
-    console.log("lyricsResponse", lyrics.value)
+    lyrics.value = lyricsResponse.data;
+    console.log("lyricsResponse 1", lyricsResponse)
 
   } catch (error) {
     console.error('Error fetching data:', error);

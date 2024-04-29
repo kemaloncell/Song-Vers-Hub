@@ -1,6 +1,4 @@
 import axios from "axios";
-
-
 const API_BASE_URL = 'https://z72kaiqudl.execute-api.eu-north-1.amazonaws.com/prod';
 
 export default {
