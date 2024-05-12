@@ -1,33 +1,4 @@
 <template>
-  <!--<div class="overflow-x-auto">
-    <table class="overflow-x-auto min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-      <tr>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Artist</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Album</th>
-      </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-
-      <tr v-for="song in songs" :key="song.song_id">
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{song.song_id}}</td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <NuxtLink :to="`/${getLanguage}/${song.path}/${song.song_id}`" class="flex items-center">
-            <img class="h-8 w-8  mr-2" src="https://via.placeholder.com/50" alt="Artist Image">
-            <span class="text-sm font-medium text-gray-900">{{song.artist_name}}</span>
-          </NuxtLink>
-        </td>
-          <NuxtLink :to="`/${getLanguage}/${song.path}/${song.song_id}`">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{song.song_name}}</td>
-          </NuxtLink>
-      </tr>
-      </tbody>
-    </table>
-  </div> -->
-
-
-
   <div class="overflow-y-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -44,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(song, index) in songs" :key="song.song_id" class="whitespace-nowrap bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <tr v-for="(song, index) in data.content" :key="song.song_id" class="whitespace-nowrap bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
         <th class="hidden md:block px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
           {{index + 1}}
         </th>
@@ -90,26 +61,15 @@
       </ul>
     </nav>
   </div>
-
-
 </template>
 
-<script setup>
+<script setup  lang="ts">
 import { useConfig } from "~/composables";
-import songsService from "~/services/songsService.js";
 const { getLanguage} = useConfig();
-
-const songs = ref([])
-
-onMounted(async () => {
-  try {
-    const songsResponse = await songsService.getSongs();
-    songs.value = songsResponse.data.content;
-    console.log("songsResponse", songs.value)
-
-
-  } catch (error) {
-    console.error('Error fetching data:', error);
+const { data } = await useFetch("/api/get-songs",{
+  params: {
+    page:1,
+    size:20
   }
-});
+})
 </script>
