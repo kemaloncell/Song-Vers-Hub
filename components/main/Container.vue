@@ -17,6 +17,6 @@ const props = defineProps({
     <p role="contentinfo" class="text-base leading-normal text-center text-gray-600 mt-2 mb-5">
       {{ settings.description }}
     </p>
-    <slot />
+       <slot />
   </div>
 </template>
